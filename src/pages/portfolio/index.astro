@@ -1,13 +1,15 @@
 ---
-import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import PageHero from '../../components/PageHero.astro';
-import { projects, categories } from '../../data/portfolio';
 
-const images = import.meta.glob<{ default: ImageMetadata }>('../../assets/portfolio/*.webp', { eager: true });
-const img = (file: string) => images[`../../assets/portfolio/${file}`]?.default;
+const categories = ['Web Design', 'Graphic Design', 'Print'];
+
+const portfolioFiles = import.meta.glob<{ default: any }>('../../content/portfolio/*.json', { eager: true });
+const projects = Object.values(portfolioFiles)
+  .map((m) => m.default)
+  .sort((a, b) => a.order - b.order);
 ---
 
 <BaseLayout title="Portfolio" description="A selection of website design, graphic design, and print work by J. James Designs.">
@@ -25,16 +27,13 @@ const img = (file: string) => images[`../../assets/portfolio/${file}`]?.default;
       </div>
 
       <div class="portfolio-grid" id="portfolio-grid">
-        {projects.map((p) => {
-          const image = img(p.image);
-          return (
-            <a href={image?.src} class="portfolio-item" data-category={p.category} data-lightbox data-reveal>
-              {image && <Image src={image} alt={p.alt} width={480} class="portfolio-img" />}
-              <span class="portfolio-cover"></span>
-              <span class="portfolio-label">{p.title}</span>
-            </a>
-          );
-        })}
+        {projects.map((p) => (
+          <a href={p.image} class="portfolio-item" data-category={p.category} data-lightbox data-reveal>
+            <img src={p.image} alt={p.alt} class="portfolio-img" loading="lazy" />
+            <span class="portfolio-cover"></span>
+            <span class="portfolio-label">{p.title}</span>
+          </a>
+        ))}
       </div>
     </div>
   </section>

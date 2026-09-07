@@ -1,14 +1,10 @@
 ---
-import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import PageHero from '../../components/PageHero.astro';
-import websiteImg from '../../assets/services/website.webp';
-import chatbotImg from '../../assets/services/chatbot.webp';
-import printing1Img from '../../assets/services/printing1.webp';
-import printing2Img from '../../assets/services/printing2.webp';
-import graphicImg from '../../assets/portfolio/alexis-diamonds-magazine.webp';
+import services from '../../content/services.json';
+import settings from '../../content/settings.json';
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -27,87 +23,28 @@ const structuredData = {
 
   <section class="services-page">
     <div class="container">
-      <!-- Website Design: text left, image right -->
-      <div class="service-row" data-reveal>
-        <div class="service-text">
-          <p class="service-kicker">
-            <span class="service-kicker-word">Website</span>
-            <span class="service-kicker-sub">design</span>
-          </p>
-          <p class="service-copy">
-            We design all of our sites in WordPress and Astro, based on modern, highly customizable
-            frameworks. All of our sites are extremely customizable and can grow and change with you
-            and your business.
-          </p>
-          <a href="/request-a-quote/" class="btn-outline is-dark">Request A Quote</a>
+      {services.rows.map((row, i) => (
+        <div class={`service-row ${i % 2 === 1 ? 'is-reverse' : ''}`} data-reveal>
+          <div class="service-text">
+            <p class="service-kicker">
+              <span class="service-kicker-word">{row.kickerWord}</span>
+              {row.kickerSub && <span class="service-kicker-sub">{row.kickerSub}</span>}
+            </p>
+            <p class="service-copy">{row.copy}</p>
+            {row.id === 'chatbot' ? (
+              <a href={`tel:${settings.phoneHref}`} class="btn-outline is-dark btn-stacked">
+                <span class="btn-primary">{settings.phone}</span>
+                <span class="btn-secondary">Call For Pricing</span>
+              </a>
+            ) : (
+              <a href="/request-a-quote/" class="btn-outline is-dark">Request A Quote</a>
+            )}
+          </div>
+          <div class={`service-media ${row.images.length > 1 ? 'service-media-pair' : ''}`}>
+            {row.images.map((src) => <img src={src} alt={`${row.kickerWord} ${row.kickerSub}`.trim()} loading="lazy" />)}
+          </div>
         </div>
-        <div class="service-media">
-          <Image src={websiteImg} alt="Laptop and workspace for website design" width={800} />
-        </div>
-      </div>
-
-      <!-- Graphic Design: image left, text right -->
-      <div class="service-row is-reverse" data-reveal>
-        <div class="service-text">
-          <p class="service-kicker">
-            <span class="service-kicker-word">Graphic</span>
-            <span class="service-kicker-sub">design</span>
-          </p>
-          <p class="service-copy">
-            We are passionate about the delicate balance of colors and typography, and we believe a
-            picture can truly speak more than a thousand words. Whether it's a logo design or a
-            complete re-branding of your company, let us show you why we are the best in the
-            business.
-          </p>
-          <a href="/request-a-quote/" class="btn-outline is-dark">Request A Quote</a>
-        </div>
-        <div class="service-media">
-          <Image src={graphicImg} alt="Alexis Diamonds magazine ad graphic design" width={800} />
-        </div>
-      </div>
-
-      <!-- Printing: text left, image right -->
-      <div class="service-row" data-reveal>
-        <div class="service-text">
-          <p class="service-kicker">
-            <span class="service-kicker-word">Printing</span>
-          </p>
-          <p class="service-copy">
-            We begin with the highest grade substrates, combined with high-end print assets that
-            deliver 500 line screen equivalence on every job. Our print technicians are artisans in
-            the craft of print, whether it's offset or digital print, specialty finish or standard
-            runs.
-          </p>
-          <a href="/request-a-quote/" class="btn-outline is-dark">Request A Quote</a>
-        </div>
-        <div class="service-media service-media-pair">
-          <Image src={printing1Img} alt="Print production detail" width={500} />
-          <Image src={printing2Img} alt="Print materials detail" width={500} />
-        </div>
-      </div>
-
-      <!-- Chatbot Creation: image left, text right -->
-      <div class="service-row is-reverse" data-reveal>
-        <div class="service-text">
-          <p class="service-kicker">
-            <span class="service-kicker-word">Chatbot</span>
-            <span class="service-kicker-sub">creation</span>
-          </p>
-          <p class="service-copy">
-            Chatbots — also known as &ldquo;conversational agents&rdquo; — are software applications
-            that mimic written or spoken human speech for the purposes of simulating a conversation
-            or interaction with a real person. Today, chatbots are used most commonly in the customer
-            service space, with companies like Facebook, Google, Amazon, and more.
-          </p>
-          <a href="tel:16159446279" class="btn-outline is-dark btn-stacked">
-            <span class="btn-primary">615.944.6279</span>
-            <span class="btn-secondary">Call For Pricing</span>
-          </a>
-        </div>
-        <div class="service-media">
-          <Image src={chatbotImg} alt="Chatbot conversational agent illustration" width={800} />
-        </div>
-      </div>
+      ))}
     </div>
   </section>
 

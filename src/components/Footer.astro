@@ -1,3 +1,7 @@
+---
+import settings from '../content/settings.json';
+---
+
 <footer id="contact" class="site-footer">
   <div class="container">
     <p class="footer-kicker" data-reveal>
@@ -6,9 +10,9 @@
     </p>
     <div class="footer-rule" data-reveal></div>
     <div class="footer-info" data-reveal>
-      <p>PO Box 202<br />Thompsons Station, TN 37179</p>
-      <p><a href="mailto:jj@jjamesdesigns.com">jj@jjamesdesigns.com</a></p>
-      <p><a href="tel:16159446279" class="footer-phone">615-944-6279</a></p>
+      <p>{settings.addressLine1}<br />{settings.addressLine2}</p>
+      <p><a href={`mailto:${settings.email}`}>{settings.email}</a></p>
+      <p><a href={`tel:${settings.phoneHref}`} class="footer-phone">{settings.phone}</a></p>
     </div>
   </div>
 

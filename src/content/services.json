@@ -1,0 +1,32 @@
+{
+  "rows": [
+    {
+      "id": "website",
+      "kickerWord": "Website",
+      "kickerSub": "design",
+      "copy": "We design all of our sites in WordPress and Astro, based on modern, highly customizable frameworks. All of our sites are extremely customizable and can grow and change with you and your business.",
+      "images": ["/uploads/services/website.webp"]
+    },
+    {
+      "id": "graphic",
+      "kickerWord": "Graphic",
+      "kickerSub": "design",
+      "copy": "We are passionate about the delicate balance of colors and typography, and we believe a picture can truly speak more than a thousand words. Whether it's a logo design or a complete re-branding of your company, let us show you why we are the best in the business.",
+      "images": ["/uploads/portfolio/alexis-diamonds-magazine.webp"]
+    },
+    {
+      "id": "printing",
+      "kickerWord": "Printing",
+      "kickerSub": "",
+      "copy": "We begin with the highest grade substrates, combined with high-end print assets that deliver 500 line screen equivalence on every job. Our print technicians are artisans in the craft of print, whether it's offset or digital print, specialty finish or standard runs.",
+      "images": ["/uploads/services/printing1.webp", "/uploads/services/printing2.webp"]
+    },
+    {
+      "id": "chatbot",
+      "kickerWord": "Chatbot",
+      "kickerSub": "creation",
+      "copy": "Chatbots — also known as “conversational agents” — are software applications that mimic written or spoken human speech for the purposes of simulating a conversation or interaction with a real person. Today, chatbots are used most commonly in the customer service space, with companies like Facebook, Google, Amazon, and more.",
+      "images": ["/uploads/services/chatbot.webp"]
+    }
+  ]
+}

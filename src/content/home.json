@@ -1,0 +1,35 @@
+{
+  "heroHeadline": "Cultivating\nPassion & Vision\nThrough\nDesign",
+  "weAreKickerWord": "We Are",
+  "weAreKickerSub": "creative",
+  "weAreCopy": "J. James Designs is a full-service design agency founded in 2006. We develop and improve your overall brand appearance, by meeting your growing technology and design needs through professional websites and marketing material across a wide range of industries.",
+  "servicesKickerWord": "Our",
+  "servicesKickerSub": "services",
+  "servicesList": ["Web Design", "Graphic Design", "Voice Overs", "Printing"],
+  "clientsKickerWord": "Our",
+  "clientsKickerSub": "clients",
+  "testimonialsHeading": "Don't take our word for it…",
+  "testimonials": [
+    {
+      "name": "Jimi Higgins",
+      "org": "Tabernacle Of Praise",
+      "location": "Tampa, FL",
+      "photo": "/uploads/testimonials/jim-debi-higgins.webp",
+      "story": "If you are like me then you'll agree that “image” is everything to those who are leading in some type of business. Your image has to be portrayed accurately, professionally and with the honesty and integrity that you have labored so hard to establish. Our corporation put the hopes of our public image in the hands of J. James Designs. We knew who we were but we needed a way to communicate that to the outside world. Through counseling, coaching, and encouragement they helped us to discover our identity in a way that create an expression of our worth through our website. If you are considering partnering with J.James Design take it from me. You'll not meet a more creative genius in the area of web design and graphic design than this company."
+    },
+    {
+      "name": "Mark Santschi",
+      "org": "Sloan Fluid Accessories Inc.",
+      "location": "Franklin, TN",
+      "photo": "/uploads/testimonials/mark-santschi.webp",
+      "story": "Tremendous creativity, coupled with excellent technical knowledge and support, makes Jeremy the best web designer and service i have ever used."
+    },
+    {
+      "name": "Brandon Hagan",
+      "org": "Twine Graphics & Screen Printing",
+      "location": "Franklin, TN",
+      "photo": "/uploads/testimonials/brandon-hagan.webp",
+      "story": "Best local web design service we've used!"
+    }
+  ]
+}
