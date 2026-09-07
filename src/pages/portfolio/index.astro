@@ -1,0 +1,282 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+import { projects, categories } from '../../data/portfolio';
+
+const images = import.meta.glob<{ default: ImageMetadata }>('../../assets/portfolio/*.webp', { eager: true });
+const img = (file: string) => images[`../../assets/portfolio/${file}`]?.default;
+---
+
+<BaseLayout title="Portfolio" description="A selection of website design, graphic design, and print work by J. James Designs.">
+  <Header slot="header" />
+
+  <PageHero video="/video/hero-portfolio.mp4" eyebrow="Our" title="portfolio" />
+
+  <section class="portfolio-page">
+    <div class="container">
+      <div class="filters">
+        <button type="button" class="filter-btn is-active" data-filter="All">All</button>
+        {categories.map((c) => (
+          <button type="button" class="filter-btn" data-filter={c}>{c}</button>
+        ))}
+      </div>
+
+      <div class="portfolio-grid" id="portfolio-grid">
+        {projects.map((p) => {
+          const image = img(p.image);
+          return (
+            <a href={image?.src} class="portfolio-item" data-category={p.category} data-lightbox data-reveal>
+              {image && <Image src={image} alt={p.alt} width={480} class="portfolio-img" />}
+              <span class="portfolio-cover"></span>
+              <span class="portfolio-label">{p.title}</span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Portfolio image">
+    <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
+    <button type="button" class="lightbox-nav lightbox-prev" aria-label="Previous image">&#10094;</button>
+    <img src="" alt="" id="lightbox-img" />
+    <button type="button" class="lightbox-nav lightbox-next" aria-label="Next image">&#10095;</button>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .portfolio-page {
+    padding: 4rem 1.5rem 6rem;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .filter-btn {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1.25rem;
+    font-family: var(--font-serif);
+    cursor: pointer;
+    color: var(--text);
+  }
+
+  .filter-btn:hover,
+  .filter-btn.is-active {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    background: transparent;
+  }
+
+  @media (min-width: 700px) {
+    .portfolio-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .portfolio-item {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #333333;
+  }
+
+  .portfolio-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .portfolio-cover {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(rgba(0, 0, 0, 0.55) 0%, rgba(18, 18, 18, 0) 96%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .portfolio-label {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    padding: 0.75rem 1rem;
+    color: white;
+    font-size: 0.85rem;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .portfolio-item:hover .portfolio-cover,
+  .portfolio-item:hover .portfolio-label {
+    opacity: 1;
+    transform: none;
+  }
+
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .lightbox.is-open {
+    display: flex;
+  }
+
+  .lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.5rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+  }
+
+  .lightbox-nav:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .lightbox-prev {
+    left: 1.5rem;
+  }
+
+  .lightbox-next {
+    right: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .lightbox-nav {
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1rem;
+    }
+
+    .lightbox-prev {
+      left: 0.5rem;
+    }
+
+    .lightbox-next {
+      right: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const items = document.querySelectorAll<HTMLAnchorElement>('.portfolio-item');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      buttons.forEach((b) => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      const filter = btn.dataset.filter;
+      items.forEach((item) => {
+        const show = filter === 'All' || item.dataset.category === filter;
+        (item as HTMLElement).style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
+  let currentIndex = 0;
+
+  function visibleItems(): HTMLAnchorElement[] {
+    return Array.from(items).filter((item) => (item as HTMLElement).style.display !== 'none');
+  }
+
+  function showAt(index: number) {
+    const visible = visibleItems();
+    if (!visible.length) return;
+    currentIndex = (index + visible.length) % visible.length;
+    const item = visible[currentIndex];
+    if (lightboxImg) {
+      lightboxImg.src = item.href;
+      lightboxImg.alt = item.querySelector('img')?.alt || '';
+    }
+  }
+
+  items.forEach((item) => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const visible = visibleItems();
+      const index = visible.indexOf(item);
+      showAt(index === -1 ? 0 : index);
+      lightbox?.classList.add('is-open');
+    });
+  });
+
+  document.querySelector('.lightbox-prev')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showAt(currentIndex - 1);
+  });
+
+  document.querySelector('.lightbox-next')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showAt(currentIndex + 1);
+  });
+
+  document.querySelector('.lightbox-close')?.addEventListener('click', () => {
+    lightbox?.classList.remove('is-open');
+  });
+
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) lightbox.classList.remove('is-open');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox?.classList.contains('is-open')) return;
+    if (e.key === 'Escape') lightbox.classList.remove('is-open');
+    if (e.key === 'ArrowLeft') showAt(currentIndex - 1);
+    if (e.key === 'ArrowRight') showAt(currentIndex + 1);
+  });
+</script>

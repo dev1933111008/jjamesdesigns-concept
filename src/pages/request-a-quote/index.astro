@@ -1,0 +1,212 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+---
+
+<BaseLayout title="Request A Quote" description="Tell us about your website, graphic design, or print project and get a quote from J. James Designs.">
+  <Header slot="header" />
+
+  <PageHero video="/video/hero-quote.mp4" eyebrow="Request" title="a quote" />
+
+  <section class="quote-page">
+    <div class="container container-narrow">
+      <form id="quote-form" novalidate>
+        <div class="hidden-field">
+          <label for="company_website">Leave this field empty</label>
+          <input type="text" id="company_website" name="company_website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label for="project_type">What do you need a quote for?</label>
+          <select id="project_type" name="project_type" required>
+            <option value="">Select one&hellip;</option>
+            <option value="Website">Website</option>
+            <option value="Graphic Design">Graphic Design</option>
+            <option value="Printing">Printing</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="first_name">First Name</label>
+            <input type="text" id="first_name" name="first_name" required />
+          </div>
+          <div class="field">
+            <label for="last_name">Last Name</label>
+            <input type="text" id="last_name" name="last_name" required />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" />
+          </div>
+        </div>
+
+        <div class="field" data-group="Website">
+          <label for="site">Current Site (if available)</label>
+          <input type="text" id="site" name="site" />
+        </div>
+
+        <div class="field" data-group="Website">
+          <label for="budget">Budget</label>
+          <select id="budget" name="budget">
+            <option value="">Select one&hellip;</option>
+            <option>Under $500</option>
+            <option>$500 &ndash; $1,500</option>
+            <option>$1,500 &ndash; $5,000</option>
+            <option>$5,000+</option>
+          </select>
+        </div>
+
+        <div class="field" data-group="Graphic Design">
+          <label for="company">Company Name</label>
+          <input type="text" id="company" name="company" />
+        </div>
+
+        <div class="field" data-group="Graphic Design">
+          <label for="graphic_type">Type of Graphics Needed</label>
+          <input type="text" id="graphic_type" name="graphic_type" placeholder="Logo, business card, flyer, etc." />
+        </div>
+
+        <div class="field" data-group="Printing">
+          <label for="print_type">Type of Printing Needed</label>
+          <input type="text" id="print_type" name="print_type" placeholder="Business cards, flyers, banners, etc." />
+        </div>
+
+        <div class="field" data-group="Printing">
+          <label for="quantity">Quantity</label>
+          <input type="text" id="quantity" name="quantity" />
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="We know you probably have questions, feel free to leave any concerns here." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-outline is-dark">Submit</button>
+        <p id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .quote-page {
+    padding: 5rem 1.5rem;
+  }
+
+  .container-narrow {
+    max-width: 640px;
+  }
+
+  .hidden-field {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .field {
+    margin-bottom: 1.5rem;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 560px) {
+    .row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    background: var(--paper);
+    color: var(--text);
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: 2px solid var(--accent);
+  }
+
+  [data-group] {
+    display: none;
+  }
+
+  #form-status {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+  }
+</style>
+
+<script>
+  const typeSelect = document.getElementById('project_type') as HTMLSelectElement | null;
+  const groups = document.querySelectorAll<HTMLElement>('[data-group]');
+
+  function syncGroups() {
+    const val = typeSelect?.value;
+    groups.forEach((g) => {
+      g.style.display = g.dataset.group === val ? 'block' : 'none';
+    });
+  }
+
+  typeSelect?.addEventListener('change', syncGroups);
+  syncGroups();
+
+  const form = document.getElementById('quote-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (btn) btn.disabled = true;
+    if (status) status.textContent = 'Sending…';
+
+    try {
+      const data = Object.fromEntries(new FormData(form).entries());
+      const res = await fetch('/quote.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      if (result.ok) {
+        form.reset();
+        syncGroups();
+        if (status) status.textContent = "Thanks — we'll follow up with a quote soon.";
+      } else {
+        if (status) status.textContent = result.error || 'Something went wrong. Please email us directly.';
+      }
+    } catch {
+      if (status) status.textContent = 'Something went wrong. Please email us directly at jj@jjamesdesigns.com.';
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  });
+</script>

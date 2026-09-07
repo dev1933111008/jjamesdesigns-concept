@@ -1,0 +1,220 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+import websiteImg from '../../assets/services/website.webp';
+import chatbotImg from '../../assets/services/chatbot.webp';
+import printing1Img from '../../assets/services/printing1.webp';
+import printing2Img from '../../assets/services/printing2.webp';
+import graphicImg from '../../assets/portfolio/alexis-diamonds-magazine.webp';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://concept.jjhiggins.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://concept.jjhiggins.com/services/' },
+  ],
+};
+---
+
+<BaseLayout title="Services" description="Website design, chatbot creation, printing, and graphic design services from J. James Designs.">
+  <Header slot="header" />
+
+  <PageHero video="/video/hero-services.mp4" eyebrow="Our" title="services" />
+
+  <section class="services-page">
+    <div class="container">
+      <!-- Website Design: text left, image right -->
+      <div class="service-row" data-reveal>
+        <div class="service-text">
+          <p class="service-kicker">
+            <span class="service-kicker-word">Website</span>
+            <span class="service-kicker-sub">design</span>
+          </p>
+          <p class="service-copy">
+            We design all of our sites in WordPress and Astro, based on modern, highly customizable
+            frameworks. All of our sites are extremely customizable and can grow and change with you
+            and your business.
+          </p>
+          <a href="/request-a-quote/" class="btn-outline is-dark">Request A Quote</a>
+        </div>
+        <div class="service-media">
+          <Image src={websiteImg} alt="Laptop and workspace for website design" width={800} />
+        </div>
+      </div>
+
+      <!-- Graphic Design: image left, text right -->
+      <div class="service-row is-reverse" data-reveal>
+        <div class="service-text">
+          <p class="service-kicker">
+            <span class="service-kicker-word">Graphic</span>
+            <span class="service-kicker-sub">design</span>
+          </p>
+          <p class="service-copy">
+            We are passionate about the delicate balance of colors and typography, and we believe a
+            picture can truly speak more than a thousand words. Whether it's a logo design or a
+            complete re-branding of your company, let us show you why we are the best in the
+            business.
+          </p>
+          <a href="/request-a-quote/" class="btn-outline is-dark">Request A Quote</a>
+        </div>
+        <div class="service-media">
+          <Image src={graphicImg} alt="Alexis Diamonds magazine ad graphic design" width={800} />
+        </div>
+      </div>
+
+      <!-- Printing: text left, image right -->
+      <div class="service-row" data-reveal>
+        <div class="service-text">
+          <p class="service-kicker">
+            <span class="service-kicker-word">Printing</span>
+          </p>
+          <p class="service-copy">
+            We begin with the highest grade substrates, combined with high-end print assets that
+            deliver 500 line screen equivalence on every job. Our print technicians are artisans in
+            the craft of print, whether it's offset or digital print, specialty finish or standard
+            runs.
+          </p>
+          <a href="/request-a-quote/" class="btn-outline is-dark">Request A Quote</a>
+        </div>
+        <div class="service-media service-media-pair">
+          <Image src={printing1Img} alt="Print production detail" width={500} />
+          <Image src={printing2Img} alt="Print materials detail" width={500} />
+        </div>
+      </div>
+
+      <!-- Chatbot Creation: image left, text right -->
+      <div class="service-row is-reverse" data-reveal>
+        <div class="service-text">
+          <p class="service-kicker">
+            <span class="service-kicker-word">Chatbot</span>
+            <span class="service-kicker-sub">creation</span>
+          </p>
+          <p class="service-copy">
+            Chatbots — also known as &ldquo;conversational agents&rdquo; — are software applications
+            that mimic written or spoken human speech for the purposes of simulating a conversation
+            or interaction with a real person. Today, chatbots are used most commonly in the customer
+            service space, with companies like Facebook, Google, Amazon, and more.
+          </p>
+          <a href="tel:16159446279" class="btn-outline is-dark btn-stacked">
+            <span class="btn-primary">615.944.6279</span>
+            <span class="btn-secondary">Call For Pricing</span>
+          </a>
+        </div>
+        <div class="service-media">
+          <Image src={chatbotImg} alt="Chatbot conversational agent illustration" width={800} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .services-page {
+    padding: 5rem 1.5rem 6rem;
+  }
+
+  .service-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .service-row:last-child {
+    border-bottom: none;
+  }
+
+  @media (min-width: 800px) {
+    .service-row {
+      flex-direction: row;
+    }
+
+    .service-row.is-reverse {
+      flex-direction: row-reverse;
+    }
+  }
+
+  .service-text {
+    flex: 1 1 0;
+    text-align: center;
+  }
+
+  @media (min-width: 800px) {
+    .service-text {
+      text-align: left;
+    }
+  }
+
+  .service-media {
+    flex: 1 1 0;
+    width: 100%;
+  }
+
+  .service-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .service-media-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .service-media-pair img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .service-kicker {
+    margin: 0 0 1.5rem;
+  }
+
+  .service-kicker-word {
+    display: block;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .service-kicker-sub {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 1.15rem;
+    letter-spacing: 0.7em;
+    color: var(--text);
+  }
+
+  .service-copy {
+    color: #444;
+    margin-bottom: 2rem;
+  }
+
+  .btn-stacked {
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 1.3;
+  }
+
+  .btn-primary {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .btn-secondary {
+    font-size: 0.85rem;
+  }
+</style>

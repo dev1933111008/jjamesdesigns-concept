@@ -1,0 +1,153 @@
+/* Matches the live jjamesdesigns.com palette exactly:
+   near-black hero/footer, white body, single blue accent, Times New Roman throughout. */
+:root {
+  --ink: #111111;
+  --paper: #ffffff;
+  --paper-alt: #ededed;
+  --text: #262626;
+  --accent: #0580ba;
+  --font-serif: "Times New Roman", Times, Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--font-serif);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.75rem 1.25rem;
+  z-index: 200;
+}
+
+.skip-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+/* ---------- Buttons (outlined, matches the live site) ---------- */
+.btn-outline {
+  display: inline-block;
+  border: 3px solid currentColor;
+  color: var(--accent);
+  padding: 0.9rem 2.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-outline:hover {
+  background: var(--accent);
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.btn-outline.is-dark {
+  color: var(--text);
+}
+
+.btn-outline.is-dark:hover {
+  background: var(--text);
+  color: var(--paper);
+}
+
+.btn-outline.is-white {
+  color: var(--paper);
+  border-color: var(--paper);
+}
+
+.btn-outline.is-white:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* ---------- Kicker heading pattern: "OUR services" / "WE ARE creative" ---------- */
+.kicker {
+  text-align: center;
+}
+
+.kicker .kicker-word {
+  display: block;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.1;
+}
+
+.kicker .kicker-sub {
+  display: block;
+  font-style: italic;
+  letter-spacing: 0.35em;
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-top: 0.25rem;
+}
+
+.kicker-rule {
+  width: 80px;
+  height: 2px;
+  background: var(--accent);
+  margin: 1.25rem auto 0;
+}
+
+/* ---------- Reveal on scroll ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

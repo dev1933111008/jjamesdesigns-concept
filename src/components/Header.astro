@@ -1,0 +1,165 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/portfolio/jjames-designs-logo.webp';
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/services/', label: 'Services' },
+  { href: '/portfolio/', label: 'Portfolio' },
+  { href: '/#contact', label: 'Contact' },
+];
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="brand" aria-label="J. James Designs home">
+      <Image src={logo} alt="J. James Designs" width={220} height={103} class="brand-logo" />
+    </a>
+
+    <button
+      type="button"
+      id="menu-toggle"
+      class="menu-toggle"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      aria-controls="site-menu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<nav id="site-menu" class="site-menu" aria-label="Primary">
+  <ul>
+    {navItems.map((item) => (
+      <li><a href={item.href}>{item.label}</a></li>
+    ))}
+    <li><a href="/request-a-quote/" class="menu-quote">Get Quote</a></li>
+  </ul>
+</nav>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 40;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand-logo {
+    height: 3.25rem;
+    width: auto;
+  }
+
+  .menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0.5rem;
+  }
+
+  .menu-toggle span {
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: #888;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.2s ease;
+  }
+
+  .menu-toggle:hover span {
+    background: var(--paper);
+  }
+
+  .menu-toggle.is-open span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .menu-toggle.is-open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle.is-open span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .site-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 39;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s;
+  }
+
+  .site-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .site-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+
+  .site-menu li {
+    margin: 1.75rem 0;
+  }
+
+  .site-menu a {
+    color: var(--paper);
+    font-size: 2.25rem;
+    letter-spacing: 0.05em;
+  }
+
+  .site-menu a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .menu-quote {
+    color: var(--accent) !important;
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('site-menu');
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.classList.toggle('is-open');
+    menu?.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      toggle?.classList.remove('is-open');
+      menu.classList.remove('is-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+</script>

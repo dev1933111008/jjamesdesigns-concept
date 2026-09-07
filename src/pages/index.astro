@@ -1,0 +1,413 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import servicesBg from '../assets/services/services-bg.webp';
+import jimDebi from '../assets/portfolio/jim-debi-higgins.webp';
+import markSantschi from '../assets/portfolio/mark-santschi.webp';
+import brandonHagan from '../assets/portfolio/brandon-hagan.webp';
+
+const images = import.meta.glob<{ default: ImageMetadata }>('../assets/portfolio/*.webp', { eager: true });
+const img = (file: string) => images[`../assets/portfolio/${file}`]?.default;
+
+const featured = [
+  { file: 'mtec-gi-consultants-website.webp', title: 'The GI Consultants', category: 'Web Design' },
+  { file: 'national-dbs-website.webp', title: 'National DBS', category: 'Web Design' },
+  { file: 'alexis-diamonds-magazine.webp', title: 'Alexis Diamonds', category: 'Graphic Design' },
+  { file: 'my-fusion-dance-website.webp', title: 'My Fusion Dance', category: 'Web Design' },
+];
+
+const testimonials = [
+  {
+    name: 'Jimi Higgins',
+    org: 'Tabernacle Of Praise',
+    location: 'Tampa, FL',
+    photo: jimDebi,
+    story: "If you are like me then you'll agree that “image” is everything to those who are leading in some type of business. Your image has to be portrayed accurately, professionally and with the honesty and integrity that you have labored so hard to establish. Our corporation put the hopes of our public image in the hands of J. James Designs. We knew who we were but we needed a way to communicate that to the outside world. Through counseling, coaching, and encouragement they helped us to discover our identity in a way that create an expression of our worth through our website. If you are considering partnering with J.James Design take it from me. You'll not meet a more creative genius in the area of web design and graphic design than this company.",
+  },
+  {
+    name: 'Mark Santschi',
+    org: 'Sloan Fluid Accessories Inc.',
+    location: 'Franklin, TN',
+    photo: markSantschi,
+    story: 'Tremendous creativity, coupled with excellent technical knowledge and support, makes Jeremy the best web designer and service i have ever used.',
+  },
+  {
+    name: 'Brandon Hagan',
+    org: 'Twine Graphics & Screen Printing',
+    location: 'Franklin, TN',
+    photo: brandonHagan,
+    story: "Best local web design service we've used!",
+  },
+];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'J. James Designs',
+  url: 'https://concept.jjhiggins.com',
+  telephone: '+1-615-944-6279',
+  email: 'jj@jjamesdesigns.com',
+  description: 'Full-service design agency founded in 2006.',
+};
+---
+
+<BaseLayout
+  title="Cultivating Passion & Vision Through Design"
+  description="J. James Designs is a full-service design agency founded in 2006. Web design, graphic design, voice overs, and printing."
+>
+  <Header slot="header" />
+
+  <!-- Hero -->
+  <section class="hero">
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      aria-hidden="true"
+      id="hero-video"
+    >
+      <source src="/video/hero-team.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-rule"></div>
+    <h1 class="hero-headline" data-reveal>
+      Cultivating<br />Passion &amp; Vision<br />Through<br />Design
+    </h1>
+    <div class="hero-rule"></div>
+  </section>
+
+  <!-- We Are Creative -->
+  <section class="we-are">
+    <div class="container">
+      <p class="kicker" data-reveal>
+        <span class="kicker-word">We Are</span>
+        <span class="kicker-sub">creative</span>
+      </p>
+      <div class="kicker-rule"></div>
+      <p class="we-are-copy" data-reveal>
+        J. James Designs is a full-service design agency founded in 2006. We develop and
+        improve your overall brand appearance, by meeting your growing technology and design
+        needs through professional websites and marketing material across a wide range of
+        industries.
+      </p>
+    </div>
+  </section>
+
+  <!-- Services teaser -->
+  <section class="services-teaser">
+    <Image src={servicesBg} alt="" aria-hidden="true" width={1920} height={1100} class="services-bg" />
+    <div class="services-overlay"></div>
+    <div class="container services-content" data-reveal>
+      <p class="kicker">
+        <span class="kicker-word" style="color: var(--paper);">Our</span>
+        <span class="kicker-sub" style="color: var(--paper);">services</span>
+      </p>
+      <ul class="services-list">
+        <li>Web Design</li>
+        <li>Graphic Design</li>
+        <li>Voice Overs</li>
+        <li>Printing</li>
+      </ul>
+      <a href="/request-a-quote/" class="btn-outline is-white">Get A Quote</a>
+    </div>
+  </section>
+
+  <!-- Portfolio teaser -->
+  <section class="portfolio-teaser">
+    <div class="container">
+      <p class="kicker" data-reveal>
+        <span class="kicker-word">Our</span>
+        <span class="kicker-sub">clients</span>
+      </p>
+      <div class="kicker-rule"></div>
+      <a href="/portfolio/" class="view-portfolio-link" data-reveal>View Our Full Portfolio</a>
+
+      <div class="portfolio-grid">
+        {featured.map((p) => {
+          const image = img(p.file);
+          return (
+            <a href="/portfolio/" class="portfolio-item" data-reveal>
+              {image && <Image src={image} alt={p.title} width={480} class="portfolio-img" />}
+              <span class="portfolio-cover"></span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="testimonials-heading" data-reveal>Don&rsquo;t take our word for it&hellip;</h2>
+
+      <div class="testimonials-grid">
+        {testimonials.map((t, i) => (
+          <div class="testimonial" data-reveal>
+            <Image src={t.photo} alt={t.name} width={150} height={150} class="testimonial-photo" />
+            <p class="testimonial-name">{t.name.toUpperCase()}</p>
+            <p class="testimonial-org">{t.org.toUpperCase()}<br />{t.location.toUpperCase()}</p>
+            <button type="button" class="btn-outline is-dark testimonial-toggle" data-target={`story-${i}`}>
+              {t.name.split(' ')[0]}&rsquo;s Story
+            </button>
+            <div class="testimonial-story" id={`story-${i}`}>
+              <p>{t.story}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    padding: 7rem 1.5rem 3rem;
+    text-align: center;
+  }
+
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+  }
+
+  .hero-rule {
+    width: 180px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-headline {
+    margin: 0;
+    color: var(--paper);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    letter-spacing: 0.12em;
+    line-height: 1.25;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+  }
+
+  .we-are {
+    padding: 6rem 1.5rem;
+    text-align: center;
+  }
+
+  .we-are-copy {
+    max-width: 640px;
+    margin: 2rem auto 0;
+    font-size: 1.15rem;
+  }
+
+  .services-teaser {
+    position: relative;
+    padding: 7rem 1.5rem;
+    overflow: hidden;
+  }
+
+  .services-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .services-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+  }
+
+  .services-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .services-list {
+    list-style: none;
+    margin: 2rem 0 2.5rem;
+    padding: 0;
+  }
+
+  .services-list li {
+    color: var(--paper);
+    font-size: 1.75rem;
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+  }
+
+  .portfolio-teaser {
+    padding: 6rem 1.5rem;
+    text-align: center;
+  }
+
+  .view-portfolio-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: #999;
+  }
+
+  .portfolio-grid {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 700px) {
+    .portfolio-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .portfolio-item {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #333333;
+  }
+
+  .portfolio-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .portfolio-cover {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(rgba(0, 0, 0, 0.45) 0%, rgba(18, 18, 18, 0) 96%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .portfolio-item:hover .portfolio-cover {
+    opacity: 1;
+  }
+
+  .testimonials {
+    background: var(--paper-alt);
+    padding: 6rem 1.5rem;
+  }
+
+  .testimonials-heading {
+    font-weight: 400;
+    font-size: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  @media (min-width: 700px) {
+    .testimonials-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .testimonials-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .testimonial {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    border: 1px solid #d5d5d5;
+    background: var(--paper);
+  }
+
+  .testimonial-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1.25rem;
+  }
+
+  .testimonial-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin: 0;
+  }
+
+  .testimonial-org {
+    color: #666;
+    font-size: 0.95rem;
+    margin: 0.4rem 0 1.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  .testimonial-story {
+    max-width: 640px;
+    margin: 1.5rem auto 0;
+    text-align: left;
+    display: none;
+  }
+
+  .testimonial-story.is-open {
+    display: block;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.testimonial-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-target');
+      const story = id && document.getElementById(id);
+      story?.classList.toggle('is-open');
+    });
+  });
+
+  const heroVideo = document.getElementById('hero-video') as HTMLVideoElement | null;
+  if (heroVideo && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    heroVideo.removeAttribute('autoplay');
+    heroVideo.pause();
+    heroVideo.removeAttribute('loop');
+  }
+</script>
