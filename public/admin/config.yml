@@ -1,0 +1,102 @@
+backend:
+  name: github
+  repo: dev1933111008/jjamesdesigns-concept
+  branch: main
+  base_url: https://cms-auth.jjhiggins.com
+  auth_endpoint: auth
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: settings
+    label: Site Settings
+    files:
+      - name: general
+        label: General
+        file: src/content/settings.json
+        fields:
+          - { label: "Phone (display)", name: phone, widget: string }
+          - { label: "Phone (digits for tel: links)", name: phoneHref, widget: string, hint: "Digits only, e.g. 16159446279" }
+          - { label: Email, name: email, widget: string }
+          - { label: "Address Line 1", name: addressLine1, widget: string }
+          - { label: "Address Line 2", name: addressLine2, widget: string }
+
+  - name: home
+    label: Home Page
+    files:
+      - name: home
+        label: Home Page Content
+        file: src/content/home.json
+        fields:
+          - { label: "Hero Headline", name: heroHeadline, widget: text, hint: "Each line becomes a line break in the big hero text." }
+          - { label: "“We Are” Kicker Word", name: weAreKickerWord, widget: string }
+          - { label: "“We Are” Kicker Sub", name: weAreKickerSub, widget: string }
+          - { label: "“We Are” Paragraph", name: weAreCopy, widget: text }
+          - { label: "Services Kicker Word", name: servicesKickerWord, widget: string }
+          - { label: "Services Kicker Sub", name: servicesKickerSub, widget: string }
+          - label: "Services List"
+            name: servicesList
+            widget: list
+            field: { label: Service, name: item, widget: string }
+          - { label: "Clients Kicker Word", name: clientsKickerWord, widget: string }
+          - { label: "Clients Kicker Sub", name: clientsKickerSub, widget: string }
+          - { label: "Testimonials Heading", name: testimonialsHeading, widget: string }
+          - label: Testimonials
+            name: testimonials
+            widget: list
+            summary: "{{name}} — {{org}}"
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Organization, name: org, widget: string }
+              - { label: Location, name: location, widget: string }
+              - label: Photo
+                name: photo
+                widget: image
+                media_folder: "/public/uploads/testimonials"
+                public_folder: "/uploads/testimonials"
+              - { label: Story, name: story, widget: text }
+
+  - name: services_page
+    label: Services Page
+    files:
+      - name: services
+        label: Services Page Content
+        file: src/content/services.json
+        fields:
+          - label: Rows
+            name: rows
+            widget: list
+            summary: "{{kickerWord}}"
+            fields:
+              - { label: "ID (do not change)", name: id, widget: string, hint: "Controls layout — leave as-is." }
+              - { label: "Kicker Word", name: kickerWord, widget: string }
+              - { label: "Kicker Sub", name: kickerSub, widget: string, required: false }
+              - { label: Copy, name: copy, widget: text }
+              - label: Images
+                name: images
+                widget: list
+                field:
+                  label: Image
+                  name: src
+                  widget: image
+                  media_folder: "/public/uploads/services"
+                  public_folder: "/uploads/services"
+
+  - name: portfolio
+    label: Portfolio
+    folder: src/content/portfolio
+    create: true
+    slug: "{{fields.title}}"
+    summary: "{{title}} — {{category}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Category, name: category, widget: select, options: ["Web Design", "Graphic Design", "Print"] }
+      - label: Image
+        name: image
+        widget: image
+        media_folder: "/public/uploads/portfolio"
+        public_folder: "/uploads/portfolio"
+      - { label: "Alt Text", name: alt, widget: string, hint: "Describe the image for accessibility/SEO." }
+      - { label: "Featured on Homepage", name: featured, widget: boolean, default: false }
+      - { label: "Sort Order", name: order, widget: number, value_type: int, hint: "Lower numbers show first." }
