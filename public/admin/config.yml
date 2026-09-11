@@ -38,6 +38,8 @@ collections:
           - label: "Services List"
             name: servicesList
             widget: list
+            allow_add: false
+            hint: "Fixed to the existing 4 items — edit the text, but items can't be added or removed here."
             field: { label: Service, name: item, widget: string }
           - { label: "Clients Kicker Word", name: clientsKickerWord, widget: string }
           - { label: "Clients Kicker Sub", name: clientsKickerSub, widget: string }
@@ -46,6 +48,8 @@ collections:
             name: testimonials
             widget: list
             summary: "{{name}} — {{org}}"
+            allow_add: false
+            hint: "Fixed to the existing testimonials — edit the text/photo, but new ones can't be added here."
             fields:
               - { label: Name, name: name, widget: string }
               - { label: Organization, name: org, widget: string }
