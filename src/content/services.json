@@ -26,6 +26,15 @@
       "images": [
         "/uploads/services/printing2.webp"
       ]
+    },
+    {
+      "id": "voiceover",
+      "kickerWord": "Voiceovers",
+      "kickerSub": "",
+      "copy": "I deliver clean, compelling narration with professional acoustics and quick turnaround times for commercials, explainer videos, and audiobooks. Let's collaborate to give your next project the clear, engaging, and impactful voice it deserves.",
+      "images": [
+        "/uploads/services/pasted-image-1789160510461.png"
+      ]
     }
   ]
 }
