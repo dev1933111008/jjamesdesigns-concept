@@ -68,6 +68,8 @@ collections:
             name: rows
             widget: list
             summary: "{{kickerWord}}"
+            allow_add: false
+            hint: "Row count is fixed to match the page layout — edit the text/images below, but rows can't be added or removed here."
             fields:
               - { label: "ID (do not change)", name: id, widget: string, hint: "Controls layout — leave as-is." }
               - { label: "Kicker Word", name: kickerWord, widget: string }
